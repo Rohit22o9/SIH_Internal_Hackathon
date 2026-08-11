@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* SIH Primary Colors */
+  --sih-navy: #071F5B;
+  --sih-navy-dark: #001B52;
+  --sih-navy-light: #0d2a75;
+  --sih-orange: #F56A00;
+  --sih-orange-hover: #e05d00;
+  --sih-orange-bright: #FF7A00;
+
+  /* Neutral Colors */
+  --bg-main: #FFFFFF;
+  --bg-light: #F8F8F6;
+  --bg-card: #FFFFFF;
+  --text-primary: #071F5B;
+  --text-dark: #222222;
+  --text-muted: #555555;
+  --text-light: #777777;
+  --border-color: #E5E5E5;
+  --input-border: #D9D9D9;
+
+  /* Status Colors */
+  --status-green: #198754;
+  --status-orange: #F56A00;
+  --status-red: #DC3545;
+
+  /* Typography */
+  --font-sans: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 12px rgba(7, 31, 91, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sih-navy);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sih-orange);
+}
+
+/* Section Headings */
+.section-heading-orange {
+  color: var(--sih-orange);
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.section-heading-navy {
+  color: var(--sih-navy);
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.btn-sih-orange {
+  background-color: var(--sih-orange);
+  color: #FFFFFF;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(245, 106, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.btn-sih-orange:hover {
+  background-color: var(--sih-orange-hover);
+  color: #FFFFFF;
+}
+
+.btn-sih-navy {
+  background-color: var(--sih-navy);
+  color: #FFFFFF;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-sih-navy:hover {
+  background-color: var(--sih-navy-dark);
+}
+
+.btn-sih-outline {
+  background-color: transparent;
+  color: var(--sih-navy);
+  border: 2px solid var(--sih-navy);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.65rem 1.35rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-sih-outline:hover {
+  background-color: var(--sih-navy);
+  color: #FFFFFF;
+}
+
+/* Institutional Cards */
+.sih-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+/* Form Styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--sih-navy);
+}
+
+.form-label .required {
+  color: var(--sih-orange);
+  margin-left: 0.2rem;
+}
+
+.form-control {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid var(--input-border);
+  color: var(--text-dark);
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--sih-orange);
+  box-shadow: 0 0 0 3px rgba(245, 106, 0, 0.15);
+}
+
+.form-control.is-invalid {
+  border-color: var(--status-red);
+}
+
+select.form-control {
+  cursor: pointer;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error-text {
+  font-size: 0.82rem;
+  color: var(--status-red);
+  margin-top: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Modal Overlay */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 27, 82, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 920px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Badges */
+.sih-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sih-badge-navy {
+  background-color: #e8edf7;
+  color: var(--sih-navy);
+  border: 1px solid #c5d3ed;
+}
+
+.sih-badge-orange {
+  background-color: #ffefe5;
+  color: var(--sih-orange);
+  border: 1px solid #ffd3b3;
+}
+
+.sih-badge-green {
+  background-color: #e6f4ea;
+  color: var(--status-green);
+  border: 1px solid #b7e1cd;
+}
+
+/* Grid Layouts */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .modal-content { padding: 1rem; }
+}
