@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Highlights } from './components/Highlights';
 import { EventInfo } from './components/EventInfo';
+import { SIHThemes } from './components/SIHThemes';
 import { Footer } from './components/Footer';
 import { RegistrationModal } from './registration/RegistrationModal';
 import { AdminLogin } from './admin/AdminLogin';
@@ -52,6 +53,7 @@ export function App() {
           <main style={{ flex: 1 }}>
             <Hero onOpenRegister={handleOpenRegister} />
             <About />
+            <SIHThemes />
             <Highlights />
             <EventInfo />
           </main>

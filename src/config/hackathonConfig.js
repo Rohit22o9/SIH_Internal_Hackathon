@@ -63,20 +63,25 @@ export const hackathonConfig = {
     "Semester 8"
   ],
 
-  // Configurable SIH Themes / Domains
+  // Configurable SIH Themes / Domains (17 Official SIH Categories)
   THEMES: [
-    "Smart Education",
-    "Healthcare & MedTech",
+    "Smart Automation",
+    "Fitness & Sports",
+    "Space Technology",
+    "Heritage & Culture",
+    "MedTech/BioTech/HealthTech",
     "Agriculture, FoodTech & Rural Development",
-    "Smart Cities & Infrastructure",
+    "Smart Vehicles",
     "Transportation & Logistics",
-    "Environment & Renewable Energy",
-    "FinTech & Blockchain",
-    "Cybersecurity & National Security",
-    "Tourism & Heritage",
+    "Robotics and Drones",
+    "Clean & Green Technology",
+    "Tourism",
+    "Renewable/ Sustainable Energy",
+    "Smart Education",
     "Disaster Management",
-    "Robotics & Drones",
-    "Miscellaneous / Open Innovation"
+    "Games & Toys",
+    "FinTech",
+    "Miscellaneous"
   ],
 
   // Admin Credentials (Protected)
