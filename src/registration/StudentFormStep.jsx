@@ -50,7 +50,9 @@ export const StudentFormStep = ({
         borderRadius: '4px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '0.5rem'
       }}>
         <div>
           <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#071F5B' }}>

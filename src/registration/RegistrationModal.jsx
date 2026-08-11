@@ -129,70 +129,96 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
     <div className="modal-backdrop">
       <div className="modal-content" style={{ maxWidth: '940px', padding: 0, background: '#FFFFFF' }}>
         {/* Header */}
-        <div style={{
+        <div className="modal-header-container" style={{
           padding: '1.25rem 1.75rem',
           background: '#071F5B',
           color: '#FFFFFF',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'flex-start',
+          gap: '1rem'
         }}>
           <div>
-            <div className="sih-badge sih-badge-orange" style={{ marginBottom: '0.25rem' }}>
+            <div className="sih-badge sih-badge-orange" style={{ marginBottom: '0.35rem' }}>
               6-MEMBER TEAM REGISTRATION
             </div>
-            <h2 style={{ fontSize: '1.35rem', fontWeight: 800 }}>
+            <h2 className="modal-header-title" style={{ fontSize: '1.35rem', fontWeight: 800, margin: 0, lineHeight: 1.25 }}>
               SIH Internal Hackathon 2026 Registration Form
             </h2>
           </div>
           <button
             onClick={onClose}
-            style={{ background: 'none', border: 'none', color: '#FFFFFF', cursor: 'pointer' }}
+            aria-label="Close modal"
+            style={{
+              background: 'rgba(255,255,255,0.1)',
+              border: 'none',
+              color: '#FFFFFF',
+              cursor: 'pointer',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}
           >
-            <X size={24} />
+            <X size={22} />
           </button>
         </div>
 
-        {/* Step Progress Bar */}
-        <div style={{
-          display: 'flex',
-          overflowX: 'auto',
-          background: '#F8F8F6',
-          padding: '0.75rem 1.25rem',
-          gap: '0.4rem',
-          borderBottom: '1px solid #E5E5E5'
-        }}>
-          {steps.map((step, idx) => {
-            const isActive = idx === currentStep;
-            const isCompleted = idx < currentStep;
-            return (
-              <button
-                key={idx}
-                onClick={() => setCurrentStep(idx)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.3rem',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '4px',
-                  border: isActive ? '2px solid #F56A00' : isCompleted ? '1px solid #198754' : '1px solid #D9D9D9',
-                  background: isActive ? '#F56A00' : isCompleted ? '#e6f4ea' : '#FFFFFF',
-                  color: isActive ? '#FFFFFF' : isCompleted ? '#198754' : '#071F5B',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {isCompleted ? <CheckCircle2 size={13} /> : (idx + 1)}
-                <span>{step.short}</span>
-              </button>
-            );
-          })}
+        {/* Step Progress Bar Header */}
+        <div style={{ background: '#F8F8F6', borderBottom: '1px solid #E5E5E5' }}>
+          <div style={{
+            display: 'flex',
+            overflowX: 'auto',
+            padding: '0.65rem 1rem',
+            gap: '0.4rem',
+            scrollbarWidth: 'thin'
+          }}>
+            {steps.map((step, idx) => {
+              const isActive = idx === currentStep;
+              const isCompleted = idx < currentStep;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentStep(idx)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    padding: '0.35rem 0.65rem',
+                    borderRadius: '4px',
+                    border: isActive ? '2px solid #F56A00' : isCompleted ? '1px solid #198754' : '1px solid #D9D9D9',
+                    background: isActive ? '#F56A00' : isCompleted ? '#e6f4ea' : '#FFFFFF',
+                    color: isActive ? '#FFFFFF' : isCompleted ? '#198754' : '#071F5B',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0
+                  }}
+                >
+                  {isCompleted ? <CheckCircle2 size={13} /> : (idx + 1)}
+                  <span>{step.short}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Visual Thin Linear Progress Strip */}
+          <div style={{ width: '100%', height: '3px', background: '#E0E0E0' }}>
+            <div style={{
+              width: `${((currentStep + 1) / steps.length) * 100}%`,
+              height: '100%',
+              background: '#F56A00',
+              transition: 'width 0.3s ease'
+            }} />
+          </div>
         </div>
 
         {/* Body Content */}
-        <div style={{ padding: '1.75rem', overflowY: 'auto', maxHeight: 'calc(85vh - 170px)' }}>
+        <div className="modal-body-container" style={{ padding: '1.75rem', overflowY: 'auto', maxHeight: 'calc(85vh - 170px)' }}>
           {/* Validation Banner Errors */}
           {validationErrors.globalErrors.length > 0 && (
             <div style={{
@@ -250,7 +276,7 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
         </div>
 
         {/* Footer Controls */}
-        <div style={{
+        <div className="modal-footer-container" style={{
           padding: '1rem 1.75rem',
           background: '#F8F8F6',
           borderTop: '1px solid #E5E5E5',
@@ -262,25 +288,25 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
           <button
             onClick={handleBack}
             disabled={currentStep === 0}
-            className="btn-sih-outline"
+            className="btn-sih-outline modal-footer-btn"
             style={{ opacity: currentStep === 0 ? 0.3 : 1, cursor: currentStep === 0 ? 'not-allowed' : 'pointer' }}
           >
             <ArrowLeft size={16} /> Back
           </button>
 
-          <div style={{ fontSize: '0.85rem', color: '#071F5B', fontWeight: 700, textAlign: 'center' }}>
+          <div className="modal-footer-info" style={{ fontSize: '0.85rem', color: '#071F5B', fontWeight: 700 }}>
             Step {currentStep + 1} of {steps.length} — {steps[currentStep].title}
           </div>
 
           {currentStep < steps.length - 1 ? (
-            <button onClick={handleNext} className="btn-sih-orange">
+            <button onClick={handleNext} className="btn-sih-orange modal-footer-btn">
               Next Step <ArrowRight size={16} />
             </button>
           ) : (
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="btn-sih-orange"
+              className="btn-sih-orange modal-footer-btn"
               style={{ padding: '0.75rem 2rem' }}
             >
               {isSubmitting ? 'Validating...' : 'SUBMIT REGISTRATION'} <Send size={16} />
