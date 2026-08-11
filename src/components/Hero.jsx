@@ -78,7 +78,7 @@ export const Hero = ({ onOpenRegister }) => {
           lineHeight: 1.6,
           marginBottom: '2rem'
         }}>
-          Welcome to the official internal hackathon selection round organized by JSPM's Sawant College of Engineering, Pune. Form your 6-member student team to solve real-world problem statements and get nominated for the National Smart India Hackathon 2026 finale.
+          Welcome to the official internal hackathon selection round organized by JSPM's Jayawantrao Sawant College of Engineering, Pune. Form your 6-member student team to solve real-world problem statements and get nominated for the National Smart India Hackathon 2026 finale.
         </p>
 
         {/* Register CTA Button */}

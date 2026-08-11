@@ -110,7 +110,7 @@ export const RegistrationSuccessModal = ({ registrationData, onClose }) => {
     y += 10;
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    doc.text("Official SIH Internal Registration Record • JSPM's Sawant College of Engineering Pune", margin, y);
+    doc.text("Official SIH Internal Registration Record • JSPM's Jayawantrao Sawant College of Engineering Pune", margin, y);
 
     doc.save(`${teamRecord.teamName}_SIH2026_Registration.pdf`);
   };
