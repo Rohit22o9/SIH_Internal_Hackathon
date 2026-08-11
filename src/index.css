@@ -225,12 +225,12 @@ textarea.form-control {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 27, 82, 0.75);
+  background: rgba(0, 27, 82, 0.7);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem;
   overflow-y: auto;
 }
 
@@ -240,7 +240,7 @@ textarea.form-control {
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 920px;
-  max-height: 92vh;
+  max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -290,13 +290,6 @@ textarea.form-control {
 }
 
 @media (max-width: 640px) {
-  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; gap: 1rem; }
-  .modal-backdrop { padding: 0.5rem; }
-  .modal-content { max-height: 96vh; border-radius: 10px; }
-  .modal-header-container { padding: 1rem 1.25rem !important; }
-  .modal-header-title { font-size: 1.1rem !important; }
-  .modal-body-container { padding: 1.25rem 1rem !important; }
-  .modal-footer-container { padding: 0.85rem 1rem !important; flex-wrap: wrap; gap: 0.75rem !important; }
-  .modal-footer-info { width: 100%; order: -1; text-align: center; margin-bottom: 0.2rem; }
-  .modal-footer-btn { flex: 1; justify-content: center; }
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .modal-content { padding: 1rem; }
 }
