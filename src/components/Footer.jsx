@@ -47,8 +47,9 @@ export const Footer = ({ onOpenAdmin, onOpenRegister }) => {
             <p style={{ color: '#E0E0E0', fontSize: '0.92rem', lineHeight: 1.6 }}>
               {hackathonConfig.COLLEGE.name}
             </p>
-            <p style={{ color: '#B0C4DE', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-              {hackathonConfig.COLLEGE.location} • SPOC: {hackathonConfig.COLLEGE.spoc}
+            <p style={{ color: '#B0C4DE', fontSize: '0.85rem', marginTop: '0.5rem', lineHeight: 1.5 }}>
+              {hackathonConfig.COLLEGE.location} <br />
+              <strong>Principal:</strong> {hackathonConfig.COLLEGE.principal} • <strong>SPOC:</strong> {hackathonConfig.COLLEGE.spoc}
             </p>
           </div>
 

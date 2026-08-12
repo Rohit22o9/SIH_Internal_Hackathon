@@ -15,7 +15,8 @@ export const hackathonConfig = {
     name: "JSPM's Jayawantrao Sawant College of Engineering, Pune",
     shortName: "JSPM JSCOE",
     location: "Hadapsar, Pune, Maharashtra 411028",
-    spoc: "Dr. Dattatray Waghole"
+    spoc: "Dr. Dattatray Waghole",
+    principal: "Dr. Pradeep Patil"
   },
 
   // Prohibited Keywords for Team Name Validation
