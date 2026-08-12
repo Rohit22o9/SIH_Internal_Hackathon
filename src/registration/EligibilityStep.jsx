@@ -7,7 +7,7 @@ export const EligibilityStep = ({ declarations = {}, onChange }) => {
   };
 
   const declarationList = [
-    { key: 'allBonaFide', label: 'I confirm that all six team members are bona fide students of this college (JSPM JSCOE Pune).' },
+    { key: 'allBonaFide', label: 'I confirm that all six team members are JSCOE students of this college (JSPM JSCOE Pune).' },
     { key: 'notInterCollege', label: 'I confirm that this is not an inter-college team.' },
     { key: 'exactlySixMembers', label: 'I confirm that the team has exactly six student members.' },
     { key: 'atLeastOneFemale', label: 'I confirm that at least one member of the team is female.' },

@@ -52,7 +52,7 @@ export const About = () => {
               <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem' }}>
                 <div style={{ borderLeft: '4px solid #F56A00', paddingLeft: '1rem' }}>
                   <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#071F5B' }}>100%</div>
-                  <div style={{ fontSize: '0.82rem', color: '#555555', fontWeight: 600 }}>Bona Fide JSCOE Teams</div>
+                  <div style={{ fontSize: '0.82rem', color: '#555555', fontWeight: 600 }}>Only JSCOE Students</div>
                 </div>
                 <div style={{ borderLeft: '4px solid #071F5B', paddingLeft: '1rem' }}>
                   <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#F56A00' }}>6 Members</div>

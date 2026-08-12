@@ -1,9 +1,43 @@
-import React, { useState } from 'react';
-import { Shield, Sparkles, Menu, X, Award } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Shield, Sparkles, Menu, X, Award, ChevronDown, Download, FileText } from 'lucide-react';
 import { hackathonConfig } from '../config/hackathonConfig';
 
 export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setResourcesDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const resourceFiles = [
+    {
+      name: 'SIH Evaluation Sheet 2026',
+      filename: 'SIH Evaluation Sheet 2026.docx',
+      path: '/resources/SIH Evaluation Sheet 2026.docx',
+      type: 'DOCX'
+    },
+    {
+      name: 'SIH 2026 Guidelines JSCOE',
+      filename: 'SIH_2026_Guidelines_JSCOE.pptx',
+      path: '/resources/SIH_2026_Guidelines_JSCOE.pptx',
+      type: 'PPTX'
+    },
+    {
+      name: 'SIH 2026 Idea Presentation Format',
+      filename: 'SIH2026-IDEA-Presentation-Format.pptx',
+      path: '/resources/SIH2026-IDEA-Presentation-Format.pptx',
+      type: 'PPTX'
+    }
+  ];
 
   return (
     <header style={{
@@ -18,18 +52,20 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
       <div style={{ height: '4px', background: 'linear-gradient(90deg, #F56A00, #FF7A00)' }} />
 
       <div style={{
-        maxWidth: '1280px',
+        maxWidth: '1440px',
+        width: '96%',
         margin: '0 auto',
-        padding: '0.85rem 1.5rem',
+        padding: '0.85rem 1rem',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        gap: '1rem'
       }}>
         {/* Left Side Branding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexShrink: 0 }}>
           <div style={{
-            width: '46px',
-            height: '46px',
+            width: '42px',
+            height: '42px',
             borderRadius: '6px',
             background: '#071F5B',
             color: '#F56A00',
@@ -37,52 +73,154 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: 800,
-            fontSize: '1.2rem',
-            border: '2px solid #F56A00'
+            fontSize: '1.15rem',
+            border: '2px solid #F56A00',
+            flexShrink: 0
           }}>
             SIH
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontWeight: 800, fontSize: '1.2rem', color: '#071F5B', letterSpacing: '-0.01em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'nowrap' }}>
+              <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#071F5B', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
                 SIH 2026 Internal Hackathon
               </span>
-              <span className="sih-badge sih-badge-orange">CAMPUS ROUND</span>
+              <span className="sih-badge sih-badge-orange" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem', whiteSpace: 'nowrap' }}>CAMPUS ROUND</span>
             </div>
-            <div style={{ fontSize: '0.78rem', color: '#555555', fontWeight: 600 }}>
+            <div style={{ fontSize: '0.75rem', color: '#555555', fontWeight: 600, whiteSpace: 'nowrap' }}>
               {hackathonConfig.COLLEGE.name}
             </div>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }} className="desktop-only">
-          <a href="#home" style={{ color: '#071F5B', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 700 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }} className="desktop-only">
+          <a href="#home" style={{ color: '#071F5B', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, whiteSpace: 'nowrap' }}>
             HOME
           </a>
-          <a href="#about" style={{ color: '#222222', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
+          <a href="#about" style={{ color: '#222222', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
             ABOUT SIH
           </a>
-          <a href="#highlights" style={{ color: '#222222', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
+          <a href="#highlights" style={{ color: '#222222', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
             GUIDELINES
           </a>
-          <a href="#event-info" style={{ color: '#222222', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
+          <a href="#event-info" style={{ color: '#222222', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, whiteSpace: 'nowrap' }}>
             EVENT SCHEDULE
           </a>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginLeft: '0.5rem' }}>
+
+          {/* Resources Dropdown */}
+          <div ref={dropdownRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => setResourcesDropdownOpen(!resourcesDropdownOpen)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: resourcesDropdownOpen ? '#F56A00' : '#222222',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                padding: '0.2rem 0',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              RESOURCES
+              <ChevronDown
+                size={15}
+                style={{
+                  transition: 'transform 0.2s ease',
+                  transform: resourcesDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                }}
+              />
+            </button>
+
+            {resourcesDropdownOpen && (
+              <div style={{
+                position: 'absolute',
+                top: 'calc(100% + 0.5rem)',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: '#FFFFFF',
+                border: '1px solid #E5E5E5',
+                borderRadius: '8px',
+                boxShadow: '0 10px 30px rgba(7, 31, 91, 0.12)',
+                minWidth: '300px',
+                padding: '0.6rem',
+                zIndex: 200
+              }}>
+                <div style={{
+                  padding: '0.4rem 0.6rem 0.6rem',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  color: '#888888',
+                  textTransform: 'uppercase',
+                  borderBottom: '1px solid #F0F0F0',
+                  marginBottom: '0.4rem'
+                }}>
+                  Official Resources & Downloads
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  {resourceFiles.map((file, index) => (
+                    <a
+                      key={index}
+                      href={file.path}
+                      download={file.filename}
+                      onClick={() => setResourcesDropdownOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '0.65rem 0.85rem',
+                        borderRadius: '6px',
+                        textDecoration: 'none',
+                        color: '#071F5B',
+                        transition: 'background 0.2s ease',
+                        background: '#F8F8F6'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#EEF2FF'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = '#F8F8F6'}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                        <FileText size={18} style={{ color: '#F56A00', flexShrink: 0 }} />
+                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#071F5B' }}>
+                          {file.name}
+                        </span>
+                      </div>
+                      <span style={{
+                        background: '#071F5B',
+                        color: '#FFFFFF',
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        padding: '0.15rem 0.45rem',
+                        borderRadius: '3px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.2rem'
+                      }}>
+                        <Download size={10} /> {file.type}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginLeft: '0.25rem', flexShrink: 0 }}>
             <button 
               onClick={onOpenAdmin}
               className="btn-sih-outline"
-              style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+              style={{ padding: '0.45rem 0.85rem', fontSize: '0.82rem', whiteSpace: 'nowrap' }}
             >
-              <Shield size={16} /> ADMIN LOGIN
+              <Shield size={15} /> ADMIN LOGIN
             </button>
 
             <button 
               onClick={onOpenRegister}
               className="btn-sih-orange"
-              style={{ padding: '0.55rem 1.25rem', fontSize: '0.88rem' }}
+              style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
             >
               REGISTER NOW
             </button>
@@ -113,6 +251,42 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
           <a href="#about" onClick={() => setMobileMenuOpen(false)} style={{ color: '#222222', textDecoration: 'none', fontWeight: 600 }}>ABOUT SIH</a>
           <a href="#highlights" onClick={() => setMobileMenuOpen(false)} style={{ color: '#222222', textDecoration: 'none', fontWeight: 600 }}>GUIDELINES</a>
           <a href="#event-info" onClick={() => setMobileMenuOpen(false)} style={{ color: '#222222', textDecoration: 'none', fontWeight: 600 }}>EVENT SCHEDULE</a>
+          
+          {/* Mobile Resources Section */}
+          <div style={{ borderTop: '1px solid #E5E5E5', paddingTop: '0.85rem' }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#F56A00', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+              RESOURCES & DOWNLOADS
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {resourceFiles.map((file, index) => (
+                <a
+                  key={index}
+                  href={file.path}
+                  download={file.filename}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.6rem 0.75rem',
+                    background: '#F8F8F6',
+                    borderRadius: '4px',
+                    textDecoration: 'none',
+                    color: '#071F5B',
+                    fontSize: '0.85rem',
+                    fontWeight: 600
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <FileText size={16} style={{ color: '#F56A00' }} />
+                    {file.name}
+                  </span>
+                  <Download size={14} style={{ color: '#071F5B' }} />
+                </a>
+              ))}
+            </div>
+          </div>
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
             <button onClick={() => { setMobileMenuOpen(false); onOpenRegister(); }} className="btn-sih-orange" style={{ width: '100%' }}>
               REGISTER NOW

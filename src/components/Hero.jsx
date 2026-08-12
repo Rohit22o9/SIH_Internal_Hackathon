@@ -2,13 +2,67 @@ import React from 'react';
 import { Calendar, MapPin, Clock, Users, ArrowRight, Award, CheckCircle } from 'lucide-react';
 import { hackathonConfig } from '../config/hackathonConfig';
 
+import minEduLogo from '../assets/logos/ministry of education.png';
+import aicteLogo from '../assets/logos/aictc.jpg';
+import moeLogo from '../assets/logos/moe innovation cell.jpg';
+import sihLogo from '../assets/logos/sih 2026.png';
+
+import jspmLogo from '../assets/logos/jspm-logo.png';
+import jscoeLogo from '../assets/logos/jscoe-logo.png';
+import iicLogo from '../assets/logos/iic-logo.png';
+import sdg1Logo from '../assets/logos/SDG 1.jpg';
+
 export const Hero = ({ onOpenRegister }) => {
   return (
     <section id="home" style={{
       background: '#F8F8F6',
       borderBottom: '1px solid #E5E5E5',
-      padding: '3.5rem 1.5rem 4rem'
+      paddingBottom: '4rem'
     }}>
+      {/* Logos Strip Below Navbar */}
+      <div style={{
+        background: '#FFFFFF',
+        borderBottom: '1px solid #E5E5E5',
+        padding: '0.85rem 1.5rem',
+        marginBottom: '3rem',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
+      }}>
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1.25rem'
+        }}>
+          {/* Left Side Logos: Ministry of Education, AICTE, MoE, SIH 2026 */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.25rem',
+            flexWrap: 'wrap'
+          }}>
+            <img src={minEduLogo} alt="Ministry of Education" style={{ height: '45px', objectFit: 'contain' }} />
+            <img src={aicteLogo} alt="AICTE" style={{ height: '45px', objectFit: 'contain' }} />
+            <img src={moeLogo} alt="MoE Innovation Cell" style={{ height: '45px', objectFit: 'contain' }} />
+            <img src={sihLogo} alt="SIH 2026" style={{ height: '45px', objectFit: 'contain' }} />
+          </div>
+
+          {/* Right Side Logos: JSPM Logo, JSCOE Logo, IIC Logo, SDG 1 */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.25rem',
+            flexWrap: 'wrap'
+          }}>
+            <img src={jspmLogo} alt="JSPM" style={{ height: '45px', objectFit: 'contain' }} />
+            <img src={jscoeLogo} alt="JSCOE" style={{ height: '45px', objectFit: 'contain' }} />
+            <img src={iicLogo} alt="IIC" style={{ height: '45px', objectFit: 'contain' }} />
+            <img src={sdg1Logo} alt="SDG 1" style={{ height: '45px', objectFit: 'contain' }} />
+          </div>
+        </div>
+      </div>
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',

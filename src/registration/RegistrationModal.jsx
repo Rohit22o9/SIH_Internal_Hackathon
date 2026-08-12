@@ -50,12 +50,12 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
   const [successData, setSuccessData] = useState(null);
 
   const steps = [
-    { title: "Student 1 (Leader)", short: "S1" },
-    { title: "Student 2", short: "S2" },
-    { title: "Student 3", short: "S3" },
-    { title: "Student 4", short: "S4" },
-    { title: "Student 5", short: "S5" },
-    { title: "Student 6", short: "S6" },
+    { title: "Student 1 (Leader)", short: "TL" },
+    { title: "Student 2", short: "TM1" },
+    { title: "Student 3", short: "TM2" },
+    { title: "Student 4", short: "TM3" },
+    { title: "Student 5", short: "TM4" },
+    { title: "Student 6", short: "TM5" },
     { title: "Team Details", short: "Team" },
     { title: "Eligibility", short: "Rules" },
     { title: "Consent & Submit", short: "Submit" }
@@ -184,7 +184,7 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
                   whiteSpace: 'nowrap'
                 }}
               >
-                {isCompleted ? <CheckCircle2 size={13} /> : (idx + 1)}
+                {isCompleted && <CheckCircle2 size={13} />}
                 <span>{step.short}</span>
               </button>
             );

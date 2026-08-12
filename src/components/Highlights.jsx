@@ -5,7 +5,7 @@ export const Highlights = () => {
   const rules = [
     { title: "Team Size Requirement", desc: "Each team must consist of exactly 6 student members. Neither more nor less than 6 members will be accepted." },
     { title: "Female Representation Mandate", desc: "Per official SIH guidelines, every team must include at least one female student member." },
-    { title: "Bona Fide College Requirement", desc: "All 6 team members must be registered students of JSPM JSCOE Pune. Inter-college teams are strictly disallowed." },
+    { title: "Only JSCOE Students Requirement", desc: "All 6 team members must be registered students of JSPM JSCOE Pune. Inter-college teams are strictly disallowed." },
     { title: "Team Name Criteria", desc: "Team names must be unique and must NOT include college names or abbreviations (e.g. JSPM, JSCOE, Sawant, College)." },
     { title: "Single Team Membership", desc: "A student can be a part of only ONE team. Duplicate PRNs/Emails/Mobiles within teams will be rejected." },
     { title: "Optional Mentor", desc: "Teams can optionally include one faculty or industry mentor to guide their prototype development." }

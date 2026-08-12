@@ -4,10 +4,10 @@ import { hackathonConfig } from '../config/hackathonConfig';
 
 export const EventInfo = () => {
   const timeline = [
-    { step: "01", title: "Registration & Idea Submission", date: "Until Sep 15, 2026", status: "Active", desc: "Teams register all 6 student members and submit problem title & theme." },
-    { step: "02", title: "Team & Data Verification", date: "Sep 16 - Sep 17, 2026", status: "Upcoming", desc: "SPOC & Department coordinators verify bona fide student credentials and PRNs." },
-    { step: "03", title: "Internal Campus Hackathon Round", date: "Sep 25 - Sep 26, 2026", status: "Upcoming", desc: "Offline presentation & prototype evaluation by internal and external jury panels." },
-    { step: "04", title: "National SIH Portal Nomination", date: "Oct 01, 2026", status: "Upcoming", desc: "Nominated winner teams uploaded directly to official MoE National SIH Portal." }
+    { step: "01", title: "Registration & Idea Submission", date: "Until Aug 16, 2026", status: "Active", desc: "Teams register all 6 student members and submit problem title & theme." },
+    { step: "02", title: "Team & Data Verification", date: "Aug 17 - Aug 18, 2026", status: "Upcoming", desc: "SPOC & Department coordinators verify JSCOE student credentials and PRNs." },
+    { step: "03", title: "Internal Campus Hackathon Round", date: "Aug 22 - Aug 23, 2026", status: "Upcoming", desc: "Offline presentation & prototype evaluation by internal and external jury panels." },
+    { step: "04", title: "National SIH Portal Nomination", date: "Sep 01, 2026", status: "Upcoming", desc: "Nominated winner teams uploaded directly to official MoE National SIH Portal." }
   ];
 
   return (

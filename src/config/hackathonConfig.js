@@ -15,7 +15,7 @@ export const hackathonConfig = {
     name: "JSPM's Jayawantrao Sawant College of Engineering, Pune",
     shortName: "JSPM JSCOE",
     location: "Hadapsar, Pune, Maharashtra 411028",
-    spoc: "Dr. SIH Coordinator / JSCOE R&D Cell"
+    spoc: "Dr. Dattatray Waghole"
   },
 
   // Prohibited Keywords for Team Name Validation
@@ -92,9 +92,9 @@ export const hackathonConfig = {
 
   // Event Placeholders
   EVENT_PLACEHOLDERS: {
-    eventDate: "September 25 - 26, 2026",
-    registrationDeadline: "September 15, 2026 (11:59 PM)",
-    venue: "Main Auditorium & Computing Labs, JSCOE Campus, Pune",
+    eventDate: "August 22 - 23, 2026",
+    registrationDeadline: "August 16, 2026 (11:59 PM)",
+    venue: "VC Hall Building, JSCOE Pune",
     sihVersion: "SIH Internal Hackathon 2026"
   }
 };
