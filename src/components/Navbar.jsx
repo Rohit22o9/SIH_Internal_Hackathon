@@ -62,10 +62,10 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
         gap: '1rem'
       }}>
         {/* Left Side Branding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 1, minWidth: 0 }}>
           <div style={{
-            width: '42px',
-            height: '42px',
+            width: '40px',
+            height: '40px',
             borderRadius: '6px',
             background: '#071F5B',
             color: '#F56A00',
@@ -73,20 +73,20 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: 800,
-            fontSize: '1.15rem',
+            fontSize: '1.1rem',
             border: '2px solid #F56A00',
             flexShrink: 0
           }}>
             SIH
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'nowrap' }}>
-              <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#071F5B', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+              <span style={{ fontWeight: 800, fontSize: 'clamp(0.9rem, 3.6vw, 1.1rem)', color: '#071F5B', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
                 SIH 2026 Internal Hackathon
               </span>
-              <span className="sih-badge sih-badge-orange" style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem', whiteSpace: 'nowrap' }}>CAMPUS ROUND</span>
+              <span className="sih-badge sih-badge-orange" style={{ fontSize: '0.62rem', padding: '0.1rem 0.35rem' }}>CAMPUS ROUND</span>
             </div>
-            <div style={{ fontSize: '0.75rem', color: '#555555', fontWeight: 600, whiteSpace: 'nowrap' }}>
+            <div style={{ fontSize: '0.72rem', color: '#555555', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {hackathonConfig.COLLEGE.name}
             </div>
           </div>

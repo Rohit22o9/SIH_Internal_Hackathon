@@ -284,12 +284,72 @@ textarea.form-control {
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
 
-@media (max-width: 1024px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+/* Responsive Utilities & Visibility */
+.desktop-only {
+  display: flex;
+}
+
+.mobile-toggle {
+  display: none !important;
+}
+
+/* Hide Scrollbars Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+@media (max-width: 992px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-toggle {
+    display: flex !important;
+  }
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
-  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-  .modal-content { padding: 1rem; }
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading-orange, .section-heading-navy {
+    font-size: 1.4rem;
+  }
+
+  .modal-backdrop {
+    padding: 0 !important;
+    align-items: stretch !important;
+  }
+
+  .modal-content {
+    max-height: 100vh !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .sih-card {
+    padding: 1.15rem;
+  }
 }
+
+/* Touch Friendly Utilities */
+button, input, select, textarea, a {
+  -webkit-tap-highlight-color: transparent;
+}
+

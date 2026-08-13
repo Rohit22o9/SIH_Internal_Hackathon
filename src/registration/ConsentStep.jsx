@@ -15,17 +15,17 @@ export const ConsentStep = ({ consentAccepted, onChange }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       <div style={{
-        padding: '0.85rem 1.25rem',
+        padding: '0.75rem 1rem',
         background: '#F8F8F6',
         borderLeft: '4px solid #F56A00',
         border: '1px solid #E5E5E5',
         borderLeftWidth: '4px',
-        borderRadius: '4px'
+        borderRadius: '6px'
       }}>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#071F5B' }}>
+        <h3 style={{ fontSize: 'clamp(0.95rem, 3.2vw, 1.1rem)', fontWeight: 800, color: '#071F5B', margin: 0, lineHeight: 1.3 }}>
           04 — STUDENT CONSENT
         </h3>
-        <p style={{ fontSize: '0.82rem', color: '#555555' }}>
+        <p style={{ fontSize: '0.78rem', color: '#555555', margin: '0.1rem 0 0' }}>
           Read the official student participation consent terms below.
         </p>
       </div>

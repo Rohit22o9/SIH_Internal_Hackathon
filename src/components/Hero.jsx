@@ -23,49 +23,34 @@ export const Hero = ({ onOpenRegister }) => {
       <div style={{
         background: '#FFFFFF',
         borderBottom: '1px solid #E5E5E5',
-        padding: '0.85rem 1.5rem',
-        marginBottom: '3rem',
+        padding: '0.85rem 1rem',
+        marginBottom: '2.5rem',
         boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
       }}>
         <div style={{
           maxWidth: '1280px',
           margin: '0 auto',
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '1.25rem'
+          gap: '1rem 1.5rem'
         }}>
-          {/* Left Side Logos: Ministry of Education, AICTE, MoE, SIH 2026 */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1.25rem',
-            flexWrap: 'wrap'
-          }}>
-            <img src={minEduLogo} alt="Ministry of Education" style={{ height: '45px', objectFit: 'contain' }} />
-            <img src={aicteLogo} alt="AICTE" style={{ height: '45px', objectFit: 'contain' }} />
-            <img src={moeLogo} alt="MoE Innovation Cell" style={{ height: '45px', objectFit: 'contain' }} />
-            <img src={sihLogo} alt="SIH 2026" style={{ height: '45px', objectFit: 'contain' }} />
-          </div>
-
-          {/* Right Side Logos: JSPM Logo, JSCOE Logo, IIC Logo, SDG 1 */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1.25rem',
-            flexWrap: 'wrap'
-          }}>
-            <img src={jspmLogo} alt="JSPM" style={{ height: '45px', objectFit: 'contain' }} />
-            <img src={jscoeLogo} alt="JSCOE" style={{ height: '45px', objectFit: 'contain' }} />
-            <img src={iicLogo} alt="IIC" style={{ height: '45px', objectFit: 'contain' }} />
-            <img src={sdg1Logo} alt="SDG 1" style={{ height: '45px', objectFit: 'contain' }} />
-          </div>
+          <img src={minEduLogo} alt="Ministry of Education" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={aicteLogo} alt="AICTE" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={moeLogo} alt="MoE Innovation Cell" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={sihLogo} alt="SIH 2026" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={jspmLogo} alt="JSPM" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={jscoeLogo} alt="JSCOE" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={iicLogo} alt="IIC" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
+          <img src={sdg1Logo} alt="SDG 1" style={{ height: 'clamp(32px, 5vw, 45px)', maxWidth: '140px', objectFit: 'contain' }} />
         </div>
       </div>
+
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
+        padding: '0 1.25rem',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -75,28 +60,31 @@ export const Hero = ({ onOpenRegister }) => {
         <div style={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '0.5rem',
+          justifyContent: 'center',
+          gap: '0.4rem',
           background: '#071F5B',
           color: '#FFFFFF',
-          padding: '0.4rem 1.25rem',
+          padding: '0.4rem 1rem',
           borderRadius: '4px',
-          fontSize: '0.85rem',
+          fontSize: 'clamp(0.72rem, 2.2vw, 0.85rem)',
           fontWeight: 700,
           textTransform: 'uppercase',
-          letterSpacing: '0.04em',
-          marginBottom: '1.25rem'
+          letterSpacing: '0.03em',
+          marginBottom: '1.25rem',
+          textAlign: 'center',
+          maxWidth: '100%'
         }}>
-          <Award size={16} style={{ color: '#F56A00' }} />
-          SMART INDIA HACKATHON 2026 • OFFICIAL CAMPUS SELECTION
+          <Award size={16} style={{ color: '#F56A00', flexShrink: 0 }} />
+          <span>SMART INDIA HACKATHON 2026 • OFFICIAL CAMPUS SELECTION</span>
         </div>
 
         {/* College Subheading */}
         <div style={{
-          fontSize: '1rem',
+          fontSize: 'clamp(0.85rem, 2.2vw, 1rem)',
           fontWeight: 700,
           color: '#F56A00',
           textTransform: 'uppercase',
-          letterSpacing: '0.04em',
+          letterSpacing: '0.03em',
           marginBottom: '0.5rem'
         }}>
           {hackathonConfig.COLLEGE.name}
@@ -104,7 +92,7 @@ export const Hero = ({ onOpenRegister }) => {
 
         {/* Main Title */}
         <h1 style={{
-          fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
+          fontSize: 'clamp(1.9rem, 5vw, 3.8rem)',
           fontWeight: 800,
           color: '#071F5B',
           lineHeight: 1.15,
@@ -116,7 +104,7 @@ export const Hero = ({ onOpenRegister }) => {
 
         {/* Tagline */}
         <div style={{
-          fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)',
+          fontSize: 'clamp(1.15rem, 3vw, 1.8rem)',
           fontWeight: 700,
           color: '#071F5B',
           marginBottom: '1.25rem'
@@ -126,7 +114,7 @@ export const Hero = ({ onOpenRegister }) => {
 
         {/* Institutional Description */}
         <p style={{
-          fontSize: '1.08rem',
+          fontSize: 'clamp(0.92rem, 2vw, 1.08rem)',
           color: '#444444',
           maxWidth: '820px',
           lineHeight: 1.6,
@@ -136,11 +124,11 @@ export const Hero = ({ onOpenRegister }) => {
         </p>
 
         {/* Register CTA Button */}
-        <div style={{ marginBottom: '3.5rem' }}>
+        <div style={{ marginBottom: '3rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <button 
             onClick={onOpenRegister}
             className="btn-sih-orange"
-            style={{ padding: '0.95rem 2.5rem', fontSize: '1.1rem', borderRadius: '4px' }}
+            style={{ padding: '0.85rem 2.25rem', fontSize: '1.05rem', borderRadius: '4px', maxWidth: '100%' }}
           >
             REGISTER NOW <ArrowRight size={20} />
           </button>

@@ -42,25 +42,27 @@ export const StudentFormStep = ({
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* Section Header */}
       <div style={{
-        padding: '0.85rem 1.25rem',
+        padding: '0.75rem 1rem',
         background: '#F8F8F6',
         borderLeft: '4px solid #F56A00',
         border: '1px solid #E5E5E5',
         borderLeftWidth: '4px',
-        borderRadius: '4px',
+        borderRadius: '6px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '0.5rem'
       }}>
         <div>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#071F5B' }}>
+          <h3 style={{ fontSize: 'clamp(0.95rem, 3.2vw, 1.1rem)', fontWeight: 800, color: '#071F5B', margin: 0, lineHeight: 1.3 }}>
             01 — STUDENT INFORMATION ({studentIndex + 1} OF 6)
           </h3>
-          <p style={{ fontSize: '0.82rem', color: '#555555' }}>
+          <p style={{ fontSize: '0.78rem', color: '#555555', margin: '0.1rem 0 0' }}>
             {isLeader ? 'Student 1 / Team Leader Details' : `Student ${studentIndex + 1} Member Details`}
           </p>
         </div>
-        {isLeader && <span className="sih-badge sih-badge-orange">TEAM LEADER</span>}
+        {isLeader && <span className="sih-badge sih-badge-orange" style={{ fontSize: '0.65rem', padding: '0.15rem 0.45rem' }}>TEAM LEADER</span>}
       </div>
 
       {/* Grid Inputs */}
