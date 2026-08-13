@@ -83,15 +83,15 @@ export const StudentFormStep = ({
         {/* 2. PRN Number */}
         <div className="form-group">
           <label className="form-label">
-            PRN Number (Digits only) <span className="required">*</span>
+            PRN Number <span className="required">*</span>
           </label>
           <input
             type="text"
             className={`form-control ${errors.prn ? 'is-invalid' : ''}`}
-            placeholder="e.g. 72145892"
+            placeholder="e.g. 72315441E"
             value={studentData.prn || ''}
             onChange={(e) => {
-              const val = e.target.value.replace(/\D/g, ''); // Digits only
+              const val = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase(); // Alphanumeric uppercase
               handleFieldChange('prn', val);
             }}
           />

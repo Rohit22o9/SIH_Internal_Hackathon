@@ -8,13 +8,13 @@ export const validateStudentData = (student, index) => {
     errors.fullName = `Student ${index + 1}: Full Name is required.`;
   }
 
-  // 2. PRN Number (Digits only, required)
+  // 2. PRN Number (Alphanumeric, required)
   if (!student.prn || !student.prn.trim()) {
     errors.prn = `Student ${index + 1}: PRN Number is required.`;
-  } else if (!/^\d+$/.test(student.prn.trim())) {
-    errors.prn = `Student ${index + 1}: PRN must contain digits only (no letters or special characters).`;
-  } else if (student.prn.trim().length < 6 || student.prn.trim().length > 15) {
-    errors.prn = `Student ${index + 1}: PRN must be between 6 and 15 digits.`;
+  } else if (!/^[a-zA-Z0-9]+$/.test(student.prn.trim())) {
+    errors.prn = `Student ${index + 1}: PRN must contain alphanumeric characters only.`;
+  } else if (student.prn.trim().length < 4 || student.prn.trim().length > 15) {
+    errors.prn = `Student ${index + 1}: PRN must be between 4 and 15 characters.`;
   }
 
   // 3. Department
