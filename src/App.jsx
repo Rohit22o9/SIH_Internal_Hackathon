@@ -7,12 +7,14 @@ import { EventInfo } from './components/EventInfo';
 import { SIHThemes } from './components/SIHThemes';
 import { Footer } from './components/Footer';
 import { RegistrationModal } from './registration/RegistrationModal';
+import { JuryRegistrationModal } from './registration/JuryRegistrationModal';
 import { AdminLogin } from './admin/AdminLogin';
 import { Dashboard } from './admin/Dashboard';
 
 export function App() {
   const [currentView, setCurrentView] = useState('public'); // 'public' | 'admin-login' | 'admin-dashboard'
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showJuryRegisterModal, setShowJuryRegisterModal] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   const handleOpenRegister = () => {
@@ -21,6 +23,14 @@ export function App() {
 
   const handleCloseRegister = () => {
     setShowRegisterModal(false);
+  };
+
+  const handleOpenJuryRegister = () => {
+    setShowJuryRegisterModal(true);
+  };
+
+  const handleCloseJuryRegister = () => {
+    setShowJuryRegisterModal(false);
   };
 
   const handleOpenAdmin = () => {
@@ -48,6 +58,7 @@ export function App() {
         <>
           <Navbar
             onOpenRegister={handleOpenRegister}
+            onOpenJuryRegister={handleOpenJuryRegister}
             onOpenAdmin={handleOpenAdmin}
           />
           <main style={{ flex: 1 }}>
@@ -106,6 +117,16 @@ export function App() {
           onClose={handleCloseRegister}
           onRegistrationSuccess={() => {
             // Can refresh local stats
+          }}
+        />
+      )}
+
+      {/* JURY REGISTRATION MODAL */}
+      {showJuryRegisterModal && (
+        <JuryRegistrationModal
+          onClose={handleCloseJuryRegister}
+          onSuccess={() => {
+            // Callback when jury registers
           }}
         />
       )}

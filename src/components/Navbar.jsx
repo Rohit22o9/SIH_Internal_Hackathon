@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Shield, Sparkles, Menu, X, Award, ChevronDown, Download, FileText } from 'lucide-react';
 import { hackathonConfig } from '../config/hackathonConfig';
 
-export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
+export const Navbar = ({ onOpenRegister, onOpenAdmin, onOpenJuryRegister }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -210,6 +210,14 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginLeft: '0.25rem', flexShrink: 0 }}>
             <button 
+              onClick={onOpenJuryRegister}
+              className="btn-sih-outline"
+              style={{ padding: '0.45rem 0.85rem', fontSize: '0.82rem', whiteSpace: 'nowrap', borderColor: '#F56A00', color: '#F56A00' }}
+            >
+              <Award size={15} /> JURY REGISTRATION
+            </button>
+
+            <button 
               onClick={onOpenAdmin}
               className="btn-sih-outline"
               style={{ padding: '0.45rem 0.85rem', fontSize: '0.82rem', whiteSpace: 'nowrap' }}
@@ -289,7 +297,10 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin }) => {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
             <button onClick={() => { setMobileMenuOpen(false); onOpenRegister(); }} className="btn-sih-orange" style={{ width: '100%' }}>
-              REGISTER NOW
+              REGISTER NOW (TEAMS)
+            </button>
+            <button onClick={() => { setMobileMenuOpen(false); onOpenJuryRegister(); }} className="btn-sih-outline" style={{ width: '100%', borderColor: '#F56A00', color: '#F56A00' }}>
+              <Award size={16} /> JURY REGISTRATION
             </button>
             <button onClick={() => { setMobileMenuOpen(false); onOpenAdmin(); }} className="btn-sih-outline" style={{ width: '100%' }}>
               ADMIN LOGIN

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { LogOut, RefreshCw, Database, Shield, LayoutDashboard, Users, UserCheck, Layers, Lightbulb, BarChart3, Settings } from 'lucide-react';
+import { LogOut, RefreshCw, Database, Shield, LayoutDashboard, Users, UserCheck, Layers, Lightbulb, BarChart3, Settings, Award } from 'lucide-react';
 import { StatisticsCards } from './StatisticsCards';
 import { DepartmentAnalytics } from './DepartmentAnalytics';
 import { GenderAnalytics } from './GenderAnalytics';
 import { ThemeAnalytics } from './ThemeAnalytics';
 import { RegistrationTrend } from './RegistrationTrend';
 import { TeamTable } from './TeamTable';
+import { JuryTable } from './JuryTable';
 import { TeamDetailsModal } from './TeamDetailsModal';
 import { getStoredTeams, calculateLiveAnalytics } from '../services/googleSheetsService';
 import { hackathonConfig } from '../config/hackathonConfig';
@@ -33,6 +34,7 @@ export const Dashboard = ({ onLogout }) => {
   const navMenuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
     { id: 'teams', label: 'Registered Teams', icon: <Users size={18} /> },
+    { id: 'jury', label: 'Registered Jury', icon: <Award size={18} /> },
     { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={18} /> },
     { id: 'departments', label: 'Departments', icon: <Layers size={18} /> },
     { id: 'themes', label: 'SIH Themes', icon: <Lightbulb size={18} /> }
@@ -155,6 +157,13 @@ export const Dashboard = ({ onLogout }) => {
           <div style={{ padding: '4rem', textAlign: 'center', color: '#555555', fontWeight: 600 }}>
             Loading dashboard data...
           </div>
+        ) : activeTab === 'jury' ? (
+          <JuryTable />
+        ) : activeTab === 'teams' ? (
+          <TeamTable
+            teams={teams}
+            onSelectTeam={setSelectedTeam}
+          />
         ) : (
           <>
             {/* Top Statistics Cards */}
@@ -183,6 +192,11 @@ export const Dashboard = ({ onLogout }) => {
               <div style={{ gridColumn: 'span 6' }} className="grid-span-12-mobile">
                 <RegistrationTrend />
               </div>
+            </div>
+
+            {/* Registered Jury Summary Table */}
+            <div style={{ marginBottom: '2rem' }}>
+              <JuryTable />
             </div>
 
             {/* Team Table */}
