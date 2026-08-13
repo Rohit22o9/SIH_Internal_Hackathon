@@ -24,6 +24,7 @@ const initialStudentState = {
 };
 
 export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
+  const modalBodyRef = React.useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [students, setStudents] = useState(
     Array.from({ length: 6 }, (_, i) => ({ ...initialStudentState }))
@@ -85,7 +86,12 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    const existingTeams = await getStoredTeams();
+    let existingTeams = [];
+    try {
+      existingTeams = await getStoredTeams();
+    } catch (err) {
+      console.error("Error fetching existing teams:", err);
+    }
 
     const formData = {
       students,
@@ -99,15 +105,46 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
 
     if (!validation.isValid) {
       setIsSubmitting(false);
+
+      // Find the first step that contains a validation error and navigate to it
+      const firstStudentErrIdx = validation.studentErrors.findIndex(
+        err => err && Object.keys(err).length > 0
+      );
+
+      if (firstStudentErrIdx !== -1) {
+        setCurrentStep(firstStudentErrIdx);
+      } else if (
+        !teamInformation.teamName ||
+        !teamInformation.theme ||
+        !teamInformation.projectTitle ||
+        !teamInformation.teamLeaderName ||
+        validation.globalErrors.some(e => e.includes('Team Name') || e.includes('Theme') || e.includes('Project Title') || e.includes('Team Leader'))
+      ) {
+        setCurrentStep(6);
+      } else if (
+        Object.values(declarations).some(val => !val) ||
+        validation.globalErrors.some(e => e.includes('Declarations') || e.includes('female'))
+      ) {
+        setCurrentStep(7);
+      } else {
+        setCurrentStep(8);
+      }
+
+      // Scroll modal body to top so global error banner is visible
+      if (modalBodyRef.current) {
+        modalBodyRef.current.scrollTop = 0;
+      }
       return;
     }
 
     try {
       const result = await submitTeamRegistration(formData);
       setIsSubmitting(false);
-      if (result.success) {
+      if (result && result.success) {
         setSuccessData(result);
         if (onRegistrationSuccess) onRegistrationSuccess();
+      } else {
+        alert("Registration submission failed. Please try again.");
       }
     } catch (err) {
       console.error("Submission failed:", err);
@@ -181,6 +218,14 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
           {steps.map((step, idx) => {
             const isActive = idx === currentStep;
             const isCompleted = idx < currentStep;
+            const hasError = idx < 6
+              ? (validationErrors.studentErrors[idx] && Object.keys(validationErrors.studentErrors[idx]).length > 0)
+              : idx === 6
+              ? validationErrors.globalErrors.some(e => e.toLowerCase().includes('team') || e.toLowerCase().includes('theme') || e.toLowerCase().includes('project') || e.toLowerCase().includes('leader'))
+              : idx === 7
+              ? validationErrors.globalErrors.some(e => e.toLowerCase().includes('declarations') || e.toLowerCase().includes('female'))
+              : validationErrors.globalErrors.some(e => e.toLowerCase().includes('consent'));
+
             return (
               <button
                 key={idx}
@@ -191,9 +236,27 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
                   gap: '0.25rem',
                   padding: '0.3rem 0.65rem',
                   borderRadius: '20px',
-                  border: isActive ? '1.5px solid #F56A00' : isCompleted ? '1px solid #198754' : '1px solid #D9D9D9',
-                  background: isActive ? '#F56A00' : isCompleted ? '#e6f4ea' : '#FFFFFF',
-                  color: isActive ? '#FFFFFF' : isCompleted ? '#198754' : '#071F5B',
+                  border: hasError
+                    ? '1.5px solid #DC3545'
+                    : isActive
+                    ? '1.5px solid #F56A00'
+                    : isCompleted
+                    ? '1px solid #198754'
+                    : '1px solid #D9D9D9',
+                  background: hasError
+                    ? '#FFF0F0'
+                    : isActive
+                    ? '#F56A00'
+                    : isCompleted
+                    ? '#e6f4ea'
+                    : '#FFFFFF',
+                  color: hasError
+                    ? '#DC3545'
+                    : isActive
+                    ? '#FFFFFF'
+                    : isCompleted
+                    ? '#198754'
+                    : '#071F5B',
                   fontSize: '0.75rem',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -202,7 +265,7 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
                   transition: 'all 0.15s ease'
                 }}
               >
-                {isCompleted && <CheckCircle2 size={12} />}
+                {hasError ? <AlertTriangle size={12} color="#DC3545" /> : isCompleted && <CheckCircle2 size={12} />}
                 <span>{step.short}</span>
               </button>
             );
@@ -210,7 +273,7 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
         </div>
 
         {/* Body Content */}
-        <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+        <div ref={modalBodyRef} style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
           {/* Validation Banner Errors */}
           {validationErrors.globalErrors.length > 0 && (
             <div style={{

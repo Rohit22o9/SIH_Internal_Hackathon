@@ -25,7 +25,9 @@ export const getStoredTeams = async () => {
       return data.teams || [];
     } catch (err) {
       console.error("Error fetching teams from Google Apps Script:", err);
-      return [];
+      initializeStorage();
+      const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : INITIAL_TEAMS;
     }
   }
 };

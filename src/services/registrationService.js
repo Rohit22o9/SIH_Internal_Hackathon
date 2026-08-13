@@ -76,6 +76,9 @@ export const validateFullRegistration = (formData, existingTeams = []) => {
       const errs = validateStudentData(std, idx);
       if (Object.keys(errs).length > 0) {
         studentErrors[idx] = errs;
+        Object.values(errs).forEach(msg => {
+          globalErrors.push(msg);
+        });
       }
     });
 
