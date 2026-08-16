@@ -44,7 +44,22 @@ export const submitTeamRegistration = async (formData) => {
   const registrationDate = now.toISOString().split('T')[0];
   const registrationTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  // Structure Sheet 1: Team Data
+  // Clean lightweight record for Google Sheets and LocalStorage (replaces base64 image data with avatar URL)
+  const cleanMembers = formData.students.map((student, idx) => ({
+    studentNumber: idx + 1,
+    isLeader: student.fullName.trim().toLowerCase() === formData.teamInformation.teamLeaderName.trim().toLowerCase(),
+    fullName: student.fullName,
+    prn: student.prn,
+    department: student.department,
+    year: student.year,
+    semester: student.semester,
+    gender: student.gender,
+    email: student.email,
+    mobile: student.mobile,
+    skills: student.skills,
+    photoUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(student.fullName)}&background=3f51b5&color=fff`
+  }));
+
   const teamRecord = {
     registrationId: regId,
     teamName: formData.teamInformation.teamName,
@@ -57,20 +72,7 @@ export const submitTeamRegistration = async (formData) => {
     registrationDate,
     registrationTime,
     status: "Verified",
-    members: formData.students.map((student, idx) => ({
-      studentNumber: idx + 1,
-      isLeader: student.fullName.trim().toLowerCase() === formData.teamInformation.teamLeaderName.trim().toLowerCase(),
-      fullName: student.fullName,
-      prn: student.prn,
-      department: student.department,
-      year: student.year,
-      semester: student.semester,
-      gender: student.gender,
-      email: student.email,
-      mobile: student.mobile,
-      skills: student.skills,
-      photoUrl: student.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.fullName)}&background=3f51b5&color=fff`
-    })),
+    members: cleanMembers,
     declarations: formData.declarations,
     consentAccepted: formData.consentAccepted,
     consentTimestamp: now.toISOString()
@@ -115,18 +117,11 @@ export const submitTeamRegistration = async (formData) => {
         const existing = await getStoredTeams();
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([teamRecord, ...existing]));
       } catch (storageErr) {
-        console.warn("LocalStorage full, stripping base64 photos for fallback storage:", storageErr);
-        // Strip large base64 photos to ensure registration data is saved
-        const strippedRecord = {
-          ...teamRecord,
-          members: teamRecord.members.map(m => ({ ...m, photoUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(m.fullName)}&background=3f51b5&color=fff` }))
-        };
+        console.warn("LocalStorage full, retrying fallback:", storageErr);
         try {
-          const existing = await getStoredTeams();
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([strippedRecord, ...existing]));
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([teamRecord]));
         } catch {
-          // If still fails, clear old teams and store current team
-          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([strippedRecord]));
+          // Silent ignore if storage is completely blocked
         }
       }
       return { success: true, registrationId: regId, teamRecord, isOfflineFallback: true };
