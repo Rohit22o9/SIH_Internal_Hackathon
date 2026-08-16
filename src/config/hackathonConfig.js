@@ -7,7 +7,7 @@ export const hackathonConfig = {
   USE_DUMMY_DATA: false,
 
   // Google Integration Endpoints
-  GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzwGAtJ_6JHYdLNPVnb0citqtFotDiqItj4ZUKSAMk4Xnd0WTVLShmzlosnvTDX06dE/exec",
+  GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzEV6qQtoFa1gJxha7kAP2XazR2cUzUaa8H_Pkw-NluBZXN5fl5MMaQNm_91lILZy2HBw/exec",
   JURY_GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxviqHzHJIQGXEOi3nqB63UeQqLOhniWZ-dEWXg8SlaL8x-30SHE0Wo4IzrOYMMyH7c/exec",
   GOOGLE_DRIVE_FOLDER_ID: "YOUR_GOOGLE_DRIVE_FOLDER_ID",
 
