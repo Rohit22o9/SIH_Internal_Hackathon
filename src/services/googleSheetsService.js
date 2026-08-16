@@ -21,10 +21,16 @@ export const getStoredTeams = async () => {
       const response = await fetch(`${hackathonConfig.GOOGLE_APPS_SCRIPT_URL}?action=getTeams`, {
         redirect: "follow"
       });
-      const data = await response.json();
+      const text = await response.text();
+      let data = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Google Apps Script returned non-JSON output (likely CORS or HTML login redirect)");
+      }
       return data.teams || [];
     } catch (err) {
-      console.error("Error fetching teams from Google Apps Script:", err);
+      console.warn("Error fetching teams from Google Apps Script, using local storage fallback:", err);
       initializeStorage();
       const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
       return raw ? JSON.parse(raw) : INITIAL_TEAMS;
@@ -88,15 +94,26 @@ export const submitTeamRegistration = async (formData) => {
         }),
         redirect: "follow"
       });
-      const result = await response.json();
-      return { success: result.success, registrationId: regId, teamRecord };
+      const text = await response.text();
+      let result = {};
+      try {
+        result = JSON.parse(text);
+      } catch {
+        throw new Error("Google Apps Script returned invalid response (CORS/permission issue)");
+      }
+
+      if (result.success || result.status === "success" || result.result === "success") {
+        return { success: true, registrationId: regId, teamRecord };
+      } else {
+        throw new Error(result.error || "Google Apps Script backend error");
+      }
     } catch (err) {
-      console.error("Failed to post to Google Sheets:", err);
+      console.warn("Failed to post to Google Sheets backend, saving to local storage fallback:", err);
       // Fallback local storage save if remote fails
       initializeStorage();
       const existing = await getStoredTeams();
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([teamRecord, ...existing]));
-      return { success: true, registrationId: regId, teamRecord };
+      return { success: true, registrationId: regId, teamRecord, isOfflineFallback: true };
     }
   }
 };
