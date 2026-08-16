@@ -111,8 +111,24 @@ export const submitTeamRegistration = async (formData) => {
       console.warn("Failed to post to Google Sheets backend, saving to local storage fallback:", err);
       // Fallback local storage save if remote fails
       initializeStorage();
-      const existing = await getStoredTeams();
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([teamRecord, ...existing]));
+      try {
+        const existing = await getStoredTeams();
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([teamRecord, ...existing]));
+      } catch (storageErr) {
+        console.warn("LocalStorage full, stripping base64 photos for fallback storage:", storageErr);
+        // Strip large base64 photos to ensure registration data is saved
+        const strippedRecord = {
+          ...teamRecord,
+          members: teamRecord.members.map(m => ({ ...m, photoUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(m.fullName)}&background=3f51b5&color=fff` }))
+        };
+        try {
+          const existing = await getStoredTeams();
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([strippedRecord, ...existing]));
+        } catch {
+          // If still fails, clear old teams and store current team
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([strippedRecord]));
+        }
+      }
       return { success: true, registrationId: regId, teamRecord, isOfflineFallback: true };
     }
   }
