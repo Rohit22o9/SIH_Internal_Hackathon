@@ -8,8 +8,10 @@ import { SIHThemes } from './components/SIHThemes';
 import { Footer } from './components/Footer';
 import { RegistrationModal } from './registration/RegistrationModal';
 import { JuryRegistrationModal } from './registration/JuryRegistrationModal';
+import { RegistrationClosedModal } from './registration/RegistrationClosedModal';
 import { AdminLogin } from './admin/AdminLogin';
 import { Dashboard } from './admin/Dashboard';
+import { hackathonConfig } from './config/hackathonConfig';
 
 export function App() {
   const [currentView, setCurrentView] = useState('public'); // 'public' | 'admin-login' | 'admin-dashboard'
@@ -111,14 +113,20 @@ export function App() {
         </>
       )}
 
-      {/* REGISTRATION MODAL */}
+      {/* REGISTRATION MODAL OR CLOSED MODAL */}
       {showRegisterModal && (
-        <RegistrationModal
-          onClose={handleCloseRegister}
-          onRegistrationSuccess={() => {
-            // Can refresh local stats
-          }}
-        />
+        hackathonConfig.IS_REGISTRATION_OPEN ? (
+          <RegistrationModal
+            onClose={handleCloseRegister}
+            onRegistrationSuccess={() => {
+              // Can refresh local stats
+            }}
+          />
+        ) : (
+          <RegistrationClosedModal
+            onClose={handleCloseRegister}
+          />
+        )
       )}
 
       {/* JURY REGISTRATION MODAL */}

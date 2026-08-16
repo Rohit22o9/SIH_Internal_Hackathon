@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, MapPin, Clock, Users, ArrowRight, Award, CheckCircle } from 'lucide-react';
+import { Calendar, MapPin, Clock, Users, ArrowRight, Award, CheckCircle, Lock, AlertTriangle } from 'lucide-react';
 import { hackathonConfig } from '../config/hackathonConfig';
 
 import minEduLogo from '../assets/logos/ministry of education.png';
@@ -57,25 +57,45 @@ export const Hero = ({ onOpenRegister }) => {
         textAlign: 'center'
       }}>
         {/* Top Official Banner Tag */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.4rem',
-          background: '#071F5B',
-          color: '#FFFFFF',
-          padding: '0.4rem 1rem',
-          borderRadius: '4px',
-          fontSize: 'clamp(0.72rem, 2.2vw, 0.85rem)',
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: '0.03em',
-          marginBottom: '1.25rem',
-          textAlign: 'center',
-          maxWidth: '100%'
-        }}>
-          <Award size={16} style={{ color: '#F56A00', flexShrink: 0 }} />
-          <span>SMART INDIA HACKATHON 2026 • OFFICIAL CAMPUS SELECTION</span>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem' }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.4rem',
+            background: '#071F5B',
+            color: '#FFFFFF',
+            padding: '0.4rem 1rem',
+            borderRadius: '4px',
+            fontSize: 'clamp(0.72rem, 2.2vw, 0.85rem)',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.03em',
+            textAlign: 'center',
+            maxWidth: '100%'
+          }}>
+            <Award size={16} style={{ color: '#F56A00', flexShrink: 0 }} />
+            <span>SMART INDIA HACKATHON 2026 • OFFICIAL CAMPUS SELECTION</span>
+          </div>
+
+          {!hackathonConfig.IS_REGISTRATION_OPEN && (
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              background: '#DC3545',
+              color: '#FFFFFF',
+              padding: '0.45rem 1.25rem',
+              borderRadius: '30px',
+              fontSize: 'clamp(0.8rem, 2.2vw, 0.9rem)',
+              fontWeight: 800,
+              letterSpacing: '0.03em',
+              boxShadow: '0 4px 12px rgba(220, 53, 69, 0.25)'
+            }}>
+              <Lock size={16} /> REGISTRATIONS ARE NOW CLOSED
+            </div>
+          )}
         </div>
 
         {/* College Subheading */}
@@ -127,10 +147,26 @@ export const Hero = ({ onOpenRegister }) => {
         <div style={{ marginBottom: '3rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <button 
             onClick={onOpenRegister}
-            className="btn-sih-orange"
-            style={{ padding: '0.85rem 2.25rem', fontSize: '1.05rem', borderRadius: '4px', maxWidth: '100%' }}
+            className={hackathonConfig.IS_REGISTRATION_OPEN ? "btn-sih-orange" : "btn-sih-outline"}
+            style={{ 
+              padding: '0.85rem 2.25rem', 
+              fontSize: '1.05rem', 
+              borderRadius: '4px', 
+              maxWidth: '100%',
+              background: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#DC3545',
+              color: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#FFFFFF',
+              borderColor: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#DC3545',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              fontWeight: 800
+            }}
           >
-            REGISTER NOW <ArrowRight size={20} />
+            {hackathonConfig.IS_REGISTRATION_OPEN ? (
+              <>REGISTER NOW <ArrowRight size={20} /></>
+            ) : (
+              <><Lock size={20} /> REGISTRATION CLOSED</>
+            )}
           </button>
         </div>
 

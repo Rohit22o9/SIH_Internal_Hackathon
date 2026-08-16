@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Shield, Sparkles, Menu, X, Award, ChevronDown, Download, FileText } from 'lucide-react';
+import { Shield, Sparkles, Menu, X, Award, ChevronDown, Download, FileText, Lock } from 'lucide-react';
 import { hackathonConfig } from '../config/hackathonConfig';
 
 export const Navbar = ({ onOpenRegister, onOpenAdmin, onOpenJuryRegister }) => {
@@ -227,10 +227,26 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin, onOpenJuryRegister }) => {
 
             <button 
               onClick={onOpenRegister}
-              className="btn-sih-orange"
-              style={{ padding: '0.5rem 1.1rem', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+              className={hackathonConfig.IS_REGISTRATION_OPEN ? "btn-sih-orange" : "btn-sih-outline"}
+              style={{
+                padding: '0.5rem 1.1rem',
+                fontSize: '0.85rem',
+                whiteSpace: 'nowrap',
+                background: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#DC3545',
+                color: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#FFFFFF',
+                borderColor: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#DC3545',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem'
+              }}
             >
-              REGISTER NOW
+              {hackathonConfig.IS_REGISTRATION_OPEN ? (
+                'REGISTER NOW'
+              ) : (
+                <>
+                  <Lock size={15} /> REGISTRATION CLOSED
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -296,8 +312,27 @@ export const Navbar = ({ onOpenRegister, onOpenAdmin, onOpenJuryRegister }) => {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
-            <button onClick={() => { setMobileMenuOpen(false); onOpenRegister(); }} className="btn-sih-orange" style={{ width: '100%' }}>
-              REGISTER NOW (TEAMS)
+            <button 
+              onClick={() => { setMobileMenuOpen(false); onOpenRegister(); }} 
+              className={hackathonConfig.IS_REGISTRATION_OPEN ? "btn-sih-orange" : "btn-sih-outline"} 
+              style={{ 
+                width: '100%',
+                background: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#DC3545',
+                color: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#FFFFFF',
+                borderColor: hackathonConfig.IS_REGISTRATION_OPEN ? undefined : '#DC3545',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.4rem'
+              }}
+            >
+              {hackathonConfig.IS_REGISTRATION_OPEN ? (
+                'REGISTER NOW (TEAMS)'
+              ) : (
+                <>
+                  <Lock size={16} /> REGISTRATION CLOSED
+                </>
+              )}
             </button>
             <button onClick={() => { setMobileMenuOpen(false); onOpenJuryRegister(); }} className="btn-sih-outline" style={{ width: '100%', borderColor: '#F56A00', color: '#F56A00' }}>
               <Award size={16} /> JURY REGISTRATION

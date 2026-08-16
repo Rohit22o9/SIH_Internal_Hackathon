@@ -73,8 +73,8 @@ export const Footer = ({ onOpenAdmin, onOpenRegister }) => {
             </div>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.9rem' }}>
               <li>
-                <button onClick={onOpenRegister} style={{ background: 'none', border: 'none', color: '#F56A00', cursor: 'pointer', padding: 0, fontWeight: 700, fontSize: 'inherit' }}>
-                  Register 6-Member Team →
+                <button onClick={onOpenRegister} style={{ background: 'none', border: 'none', color: hackathonConfig.IS_REGISTRATION_OPEN ? '#F56A00' : '#FF6B6B', cursor: 'pointer', padding: 0, fontWeight: 700, fontSize: 'inherit' }}>
+                  {hackathonConfig.IS_REGISTRATION_OPEN ? 'Register 6-Member Team →' : 'Registration Status: CLOSED (Click for details)'}
                 </button>
               </li>
               <li>

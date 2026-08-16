@@ -6,6 +6,9 @@ export const hackathonConfig = {
   // Set to false when connecting to real Google Apps Script backend
   USE_DUMMY_DATA: false,
 
+  // Global Toggle for Registration Status
+  IS_REGISTRATION_OPEN: false,
+
   // Google Integration Endpoints
   GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxfaU01lad4YbmIRmwwMIwHC0APPdbLO21uq25OwwH8jItcKnv4DOi5I6dEtf_FpQV5Pg/exec",
   JURY_GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxviqHzHJIQGXEOi3nqB63UeQqLOhniWZ-dEWXg8SlaL8x-30SHE0Wo4IzrOYMMyH7c/exec",
