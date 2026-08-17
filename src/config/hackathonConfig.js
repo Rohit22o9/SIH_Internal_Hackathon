@@ -7,7 +7,7 @@ export const hackathonConfig = {
   USE_DUMMY_DATA: false,
 
   // Global Toggle for Registration Status
-  IS_REGISTRATION_OPEN: false,
+  IS_REGISTRATION_OPEN: true,
 
   // Google Integration Endpoints
   GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxfaU01lad4YbmIRmwwMIwHC0APPdbLO21uq25OwwH8jItcKnv4DOi5I6dEtf_FpQV5Pg/exec",
@@ -98,7 +98,7 @@ export const hackathonConfig = {
   // Event Placeholders
   EVENT_PLACEHOLDERS: {
     eventDate: "August 22 - 23, 2026",
-    registrationDeadline: "August 16, 2026 (11:59 PM)",
+    registrationDeadline: "August 17, 2026 (11:59 PM)",
     venue: "VC Hall Building, JSCOE Pune",
     sihVersion: "SIH Internal Hackathon 2026"
   }
