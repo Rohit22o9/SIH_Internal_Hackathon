@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Download, Eye, CheckCircle2 } from 'lucide-react';
+import { Search, Download, Eye, CheckCircle2, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { hackathonConfig } from '../config/hackathonConfig';
 
 export const TeamTable = ({ teams = [], onSelectTeam }) => {
@@ -9,10 +9,40 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
   const [yearFilter, setYearFilter] = useState('');
   const [mentorFilter, setMentorFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  
+  // Sort state
+  const [sortConfig, setSortConfig] = useState({ key: 'registrationId', direction: 'asc' });
+
+  const getTeamLeaderObj = (team) => {
+    if (!team || !team.members || !Array.isArray(team.members) || team.members.length === 0) return null;
+    return (
+      team.members.find(m => m && (m.isLeader === true || m.isLeader === "true" || m.isLeader === 1)) || 
+      team.members.find(m => m && m.studentNumber === 1) || 
+      team.members.find(m => m && team.teamLeader && m.fullName && m.fullName.trim().toLowerCase() === team.teamLeader.trim().toLowerCase()) ||
+      team.members[0]
+    );
+  };
+
+  const getLeaderDept = (team) => {
+    if (!team) return 'N/A';
+    const leader = getTeamLeaderObj(team);
+    if (leader && leader.department) return leader.department.toString().trim();
+    if (team.department) return team.department.toString().trim();
+    return 'N/A';
+  };
+
+  const handleSort = (key) => {
+    setSortConfig(prev => {
+      if (prev.key === key) {
+        return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+      }
+      return { key, direction: 'asc' };
+    });
+  };
 
   const filteredTeams = teams.filter(team => {
     const query = searchTerm.toLowerCase().trim();
-    const leader = team.members ? team.members.find(m => m.isLeader) || {} : {};
+    const leader = getTeamLeaderObj(team) || {};
     const leaderName = team.teamLeader || leader.fullName || '';
 
     const matchesSearch = !query || (
@@ -20,21 +50,25 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
       (team.teamName && team.teamName.toLowerCase().includes(query)) ||
       (team.projectTitle && team.projectTitle.toLowerCase().includes(query)) ||
       (leaderName && leaderName.toLowerCase().includes(query)) ||
-      (team.members && team.members.some(m =>
-        (m.fullName && m.fullName.toLowerCase().includes(query)) ||
-        (m.prn && m.prn.toLowerCase().includes(query)) ||
-        (m.email && m.email.toLowerCase().includes(query))
+      (team.members && Array.isArray(team.members) && team.members.some(m =>
+        m && (
+          (m.fullName && m.fullName.toLowerCase().includes(query)) ||
+          (m.prn && m.prn.toLowerCase().includes(query)) ||
+          (m.email && m.email.toLowerCase().includes(query))
+        )
       ))
     );
 
+    // Filter STRICTLY by Team Leader's Department
+    const leaderDept = getLeaderDept(team);
     const matchesDept = !departmentFilter || (
-      team.members && team.members.some(m => m.department === departmentFilter)
+      leaderDept && leaderDept.toString().trim().toUpperCase() === departmentFilter.toString().trim().toUpperCase()
     );
 
     const matchesTheme = !themeFilter || team.theme === themeFilter;
 
     const matchesYear = !yearFilter || (
-      team.members && team.members.some(m => m.year === yearFilter)
+      team.members && Array.isArray(team.members) && team.members.some(m => m && m.year === yearFilter)
     );
 
     const hasMentor = team.mentorName && team.mentorName !== "N/A" && team.mentorName.trim() !== "";
@@ -47,19 +81,58 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
     return matchesSearch && matchesDept && matchesTheme && matchesYear && matchesMentor && matchesStatus;
   });
 
+  // Sort filtered teams
+  const sortedTeams = [...filteredTeams].sort((a, b) => {
+    const { key, direction } = sortConfig;
+    let valA = '';
+    let valB = '';
+
+    if (key === 'registrationId') {
+      valA = a.registrationId || '';
+      valB = b.registrationId || '';
+    } else if (key === 'teamName') {
+      valA = (a.teamName || '').toLowerCase();
+      valB = (b.teamName || '').toLowerCase();
+    } else if (key === 'teamLeader') {
+      valA = (a.teamLeader || '').toLowerCase();
+      valB = (b.teamLeader || '').toLowerCase();
+    } else if (key === 'department') {
+      valA = (getLeaderDept(a) || '').toLowerCase();
+      valB = (getLeaderDept(b) || '').toLowerCase();
+    } else if (key === 'registrationDate') {
+      valA = new Date(a.registrationDate || 0).getTime();
+      valB = new Date(b.registrationDate || 0).getTime();
+    } else if (key === 'status') {
+      valA = (a.status || '').toLowerCase();
+      valB = (b.status || '').toLowerCase();
+    }
+
+    if (valA < valB) return direction === 'asc' ? -1 : 1;
+    if (valA > valB) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const renderSortIcon = (key) => {
+    if (sortConfig.key !== key) return <ArrowUpDown size={13} style={{ opacity: 0.5, marginLeft: '4px' }} />;
+    return sortConfig.direction === 'asc' 
+      ? <ArrowUp size={13} style={{ color: '#F56A00', marginLeft: '4px' }} />
+      : <ArrowDown size={13} style={{ color: '#F56A00', marginLeft: '4px' }} />;
+  };
+
   const handleExportCSV = () => {
-    if (filteredTeams.length === 0) {
+    if (sortedTeams.length === 0) {
       alert("No data available to export.");
       return;
     }
 
-    const headers = ["Registration ID", "Team Name", "Theme", "Project Title", "Team Leader", "Mentor", "Member Count", "Female Count", "Date", "Status"];
-    const rows = filteredTeams.map(t => [
+    const headers = ["Registration ID", "Team Name", "Theme", "Project Title", "Team Leader", "Leader Dept", "Mentor", "Member Count", "Female Count", "Date", "Status"];
+    const rows = sortedTeams.map(t => [
       `"${t.registrationId}"`,
       `"${t.teamName}"`,
       `"${t.theme}"`,
-      `"${t.projectTitle.replace(/"/g, '""')}"`,
+      `"${t.projectTitle ? t.projectTitle.replace(/"/g, '""') : ''}"`,
       `"${t.teamLeader}"`,
+      `"${getLeaderDept(t)}"`,
       `"${t.mentorName || 'N/A'}"`,
       t.memberCount || 6,
       t.femaleMemberCount || 1,
@@ -90,10 +163,10 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
       }}>
         <div>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#071F5B', textTransform: 'uppercase' }}>
-            Registered Teams ({filteredTeams.length})
+            Registered Teams ({sortedTeams.length})
           </h3>
           <p style={{ fontSize: '0.82rem', color: '#555555' }}>
-            Filter, search, inspect 6-member team details, and export CSV
+            Filter by leader department, search, sort columns, inspect team details, and export CSV
           </p>
         </div>
 
@@ -129,11 +202,11 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
         {/* Dept Filter */}
         <select
           className="form-control"
-          style={{ width: 'auto', flex: '1 1 130px' }}
+          style={{ width: 'auto', flex: '1 1 150px' }}
           value={departmentFilter}
           onChange={(e) => setDepartmentFilter(e.target.value)}
         >
-          <option value="">All Departments</option>
+          <option value="">All Leader Depts</option>
           {hackathonConfig.DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
         </select>
 
@@ -177,24 +250,35 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
           <thead>
             <tr style={{ background: '#071F5B', color: '#FFFFFF', fontSize: '0.82rem', textTransform: 'uppercase' }}>
-              <th style={{ padding: '0.65rem 0.85rem' }}>Reg ID</th>
-              <th style={{ padding: '0.65rem 0.85rem' }}>Team Name</th>
-              <th style={{ padding: '0.65rem 0.85rem' }}>Team Leader</th>
-              <th style={{ padding: '0.65rem 0.85rem' }}>Dept / Theme</th>
+              <th style={{ padding: '0.65rem 0.85rem', cursor: 'pointer' }} onClick={() => handleSort('registrationId')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>Reg ID {renderSortIcon('registrationId')}</div>
+              </th>
+              <th style={{ padding: '0.65rem 0.85rem', cursor: 'pointer' }} onClick={() => handleSort('teamName')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>Team Name {renderSortIcon('teamName')}</div>
+              </th>
+              <th style={{ padding: '0.65rem 0.85rem', cursor: 'pointer' }} onClick={() => handleSort('teamLeader')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>Team Leader {renderSortIcon('teamLeader')}</div>
+              </th>
+              <th style={{ padding: '0.65rem 0.85rem', cursor: 'pointer' }} onClick={() => handleSort('department')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>Dept / Theme {renderSortIcon('department')}</div>
+              </th>
               <th style={{ padding: '0.65rem 0.85rem' }}>Members</th>
-              <th style={{ padding: '0.65rem 0.85rem' }}>Reg Date</th>
-              <th style={{ padding: '0.65rem 0.85rem' }}>Status</th>
+              <th style={{ padding: '0.65rem 0.85rem', cursor: 'pointer' }} onClick={() => handleSort('registrationDate')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>Reg Date {renderSortIcon('registrationDate')}</div>
+              </th>
+              <th style={{ padding: '0.65rem 0.85rem', cursor: 'pointer' }} onClick={() => handleSort('status')}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>Status {renderSortIcon('status')}</div>
+              </th>
               <th style={{ padding: '0.65rem 0.85rem', textAlign: 'right' }}>Action</th>
             </tr>
           </thead>
           <tbody>
-            {filteredTeams.length > 0 ? (
-              filteredTeams.map((team, idx) => {
-                const leaderObj = team.members ? team.members.find(m => m.isLeader) || team.members[0] : null;
-                const dept = leaderObj ? leaderObj.department : 'N/A';
+            {sortedTeams.length > 0 ? (
+              sortedTeams.map((team, idx) => {
+                const dept = getLeaderDept(team);
 
                 return (
-                  <tr key={team.registrationId} style={{ background: idx % 2 === 0 ? '#FFFFFF' : '#F8F8F6', borderBottom: '1px solid #E5E5E5' }}>
+                  <tr key={`${team.registrationId}_${team.teamName}_${idx}`} style={{ background: idx % 2 === 0 ? '#FFFFFF' : '#F8F8F6', borderBottom: '1px solid #E5E5E5' }}>
                     <td style={{ padding: '0.65rem 0.85rem', fontWeight: 800, color: '#071F5B' }}>
                       {team.registrationId}
                     </td>
@@ -209,7 +293,7 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
                       <div style={{ fontSize: '0.78rem', color: '#666666' }}>{team.theme}</div>
                     </td>
                     <td style={{ padding: '0.65rem 0.85rem' }}>
-                      <span className="sih-badge sih-badge-navy">6 Students</span>
+                      <span className="sih-badge sih-badge-navy">{team.memberCount || 6} Students</span>
                     </td>
                     <td style={{ padding: '0.65rem 0.85rem', color: '#555555', fontSize: '0.82rem' }}>
                       {team.registrationDate}
@@ -234,7 +318,7 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
             ) : (
               <tr>
                 <td colSpan={8} style={{ textAlign: 'center', padding: '2.5rem', color: '#666666' }}>
-                  No matching teams found. Try clearing filters or search terms.
+                  No matching teams found for the selected filter.
                 </td>
               </tr>
             )}
@@ -244,3 +328,5 @@ export const TeamTable = ({ teams = [], onSelectTeam }) => {
     </div>
   );
 };
+
+

@@ -164,6 +164,30 @@ export const Dashboard = ({ onLogout }) => {
             teams={teams}
             onSelectTeam={setSelectedTeam}
           />
+        ) : activeTab === 'analytics' ? (
+          <div>
+            <StatisticsCards summary={analytics.summary} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem', marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+              <div style={{ gridColumn: 'span 8' }} className="grid-span-12-mobile">
+                <DepartmentAnalytics departmentData={analytics.departmentData} />
+              </div>
+              <div style={{ gridColumn: 'span 4' }} className="grid-span-12-mobile">
+                <GenderAnalytics genderData={analytics.genderData} />
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
+              <div style={{ gridColumn: 'span 6' }} className="grid-span-12-mobile">
+                <ThemeAnalytics themeData={analytics.themeData} />
+              </div>
+              <div style={{ gridColumn: 'span 6' }} className="grid-span-12-mobile">
+                <RegistrationTrend />
+              </div>
+            </div>
+          </div>
+        ) : activeTab === 'departments' ? (
+          <DepartmentAnalytics departmentData={analytics.departmentData} />
+        ) : activeTab === 'themes' ? (
+          <ThemeAnalytics themeData={analytics.themeData} />
         ) : (
           <>
             {/* Top Statistics Cards */}
@@ -204,15 +228,15 @@ export const Dashboard = ({ onLogout }) => {
               teams={teams}
               onSelectTeam={setSelectedTeam}
             />
-
-            {/* Team Details Modal */}
-            {selectedTeam && (
-              <TeamDetailsModal
-                team={selectedTeam}
-                onClose={() => setSelectedTeam(null)}
-              />
-            )}
           </>
+        )}
+
+        {/* Global Team Details Modal - Works for all tabs */}
+        {selectedTeam && (
+          <TeamDetailsModal
+            team={selectedTeam}
+            onClose={() => setSelectedTeam(null)}
+          />
         )}
       </main>
 
