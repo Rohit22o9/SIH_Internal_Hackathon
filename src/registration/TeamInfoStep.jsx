@@ -6,6 +6,7 @@ export const TeamInfoStep = ({
   teamInformation,
   onChange,
   students = [],
+  existingTeams = [],
   errors = {}
 }) => {
   const handleFieldChange = (field, value) => {
@@ -15,6 +16,14 @@ export const TeamInfoStep = ({
   const studentLeaderOptions = students
     .map(s => s.fullName ? s.fullName.trim() : '')
     .filter(name => name.length > 0);
+
+  const currentTeamName = (teamInformation.teamName || '').trim();
+  const normalizedCurrent = currentTeamName.replace(/\s+/g, ' ').toLowerCase();
+  const duplicateMatch = currentTeamName
+    ? existingTeams.find(t => t.teamName && t.teamName.trim().replace(/\s+/g, ' ').toLowerCase() === normalizedCurrent)
+    : null;
+
+  const displayTeamNameError = errors.teamName || (duplicateMatch ? `Team Name '${currentTeamName}' is already registered (by Team ID: ${duplicateMatch.registrationId || 'Existing Team'}). Please choose a unique team name.` : null);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -42,12 +51,12 @@ export const TeamInfoStep = ({
           </label>
           <input
             type="text"
-            className={`form-control ${errors.teamName ? 'is-invalid' : ''}`}
+            className={`form-control ${displayTeamNameError ? 'is-invalid' : ''}`}
             placeholder="e.g. CyberCrafters, NeuralPulse"
             value={teamInformation.teamName || ''}
             onChange={(e) => handleFieldChange('teamName', e.target.value)}
           />
-          {errors.teamName && <div className="error-text"><AlertCircle size={14} />{errors.teamName}</div>}
+          {displayTeamNameError && <div className="error-text"><AlertCircle size={14} />{displayTeamNameError}</div>}
           <span style={{ fontSize: '0.78rem', color: '#666666', marginTop: '0.2rem' }}>
             Rules: Must be unique. Must NOT contain college names or abbreviations (e.g. JSPM, JSCOE, Sawant, College).
           </span>

@@ -38,8 +38,40 @@ export const getStoredTeams = async () => {
   }
 };
 
+// Unique Sequential Registration ID Generator (e.g. SIH-2026-001, SIH-2026-006, etc.)
+export const generateUniqueTeamId = (existingTeams = []) => {
+  const prefix = "SIH-2026-";
+  const existingIds = new Set(
+    (existingTeams || []).map(t => (t.registrationId || t.teamId || '').toUpperCase())
+  );
+
+  let maxNum = 0;
+  (existingTeams || []).forEach(t => {
+    const id = t.registrationId || t.teamId || '';
+    const match = id.match(/SIH-2026-(\d+)/i);
+    if (match && match[1]) {
+      const num = parseInt(match[1], 10);
+      if (!isNaN(num) && num > maxNum) {
+        maxNum = num;
+      }
+    }
+  });
+
+  let nextNum = maxNum + 1;
+  let candidateId = `${prefix}${String(nextNum).padStart(3, '0')}`;
+
+  // Guaranteed uniqueness loop
+  while (existingIds.has(candidateId.toUpperCase())) {
+    nextNum++;
+    candidateId = `${prefix}${String(nextNum).padStart(3, '0')}`;
+  }
+
+  return candidateId;
+};
+
 export const submitTeamRegistration = async (formData) => {
-  const regId = `SIH-2026-${String(Math.floor(100 + Math.random() * 900)).padStart(3, '0')}`;
+  const existingTeams = await getStoredTeams();
+  const regId = generateUniqueTeamId(existingTeams);
   const now = new Date();
   const registrationDate = now.toISOString().split('T')[0];
   const registrationTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -62,6 +94,7 @@ export const submitTeamRegistration = async (formData) => {
 
   const teamRecord = {
     registrationId: regId,
+    teamId: regId,
     teamName: formData.teamInformation.teamName,
     theme: formData.teamInformation.theme,
     projectTitle: formData.teamInformation.projectTitle,
@@ -80,8 +113,7 @@ export const submitTeamRegistration = async (formData) => {
 
   if (hackathonConfig.USE_DUMMY_DATA) {
     initializeStorage();
-    const existing = await getStoredTeams();
-    const updated = [teamRecord, ...existing];
+    const updated = [teamRecord, ...existingTeams];
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
     return { success: true, registrationId: regId, teamRecord };
   } else {

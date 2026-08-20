@@ -138,11 +138,14 @@ export const validateFullRegistration = (formData, existingTeams = []) => {
 
   // Validate Team Information
   const teamInfo = formData.teamInformation || {};
+  const teamInfoErrors = {};
   if (!teamInfo.teamName || !teamInfo.teamName.trim()) {
     globalErrors.push("Team Name is required.");
+    teamInfoErrors.teamName = "Team Name is required.";
   } else {
     const rawTeamName = teamInfo.teamName.trim();
     const upperTeamName = rawTeamName.toUpperCase();
+    const normalizedName = rawTeamName.replace(/\s+/g, ' ').toLowerCase();
 
     // Check College Name / Abbreviation violation
     const matchedProhibited = hackathonConfig.PROHIBITED_TEAM_NAME_KEYWORDS.find(keyword =>
@@ -150,36 +153,43 @@ export const validateFullRegistration = (formData, existingTeams = []) => {
     );
 
     if (matchedProhibited) {
-      globalErrors.push(
-        `Team Name '${rawTeamName}' is invalid. Team name must NOT contain college name or abbreviation (violates keyword: "${matchedProhibited}").`
-      );
+      const msg = `Team Name '${rawTeamName}' is invalid. Team name must NOT contain college name or abbreviation (violates keyword: "${matchedProhibited}").`;
+      globalErrors.push(msg);
+      teamInfoErrors.teamName = msg;
     }
 
-    // Check duplicate team name across existing teams
-    const isDuplicate = existingTeams.some(t =>
-      t.teamName.trim().toLowerCase() === rawTeamName.toLowerCase()
+    // Check duplicate team name across existing teams (normalized whitespace & case-insensitive)
+    const existingMatch = existingTeams.find(t =>
+      t.teamName && t.teamName.trim().replace(/\s+/g, ' ').toLowerCase() === normalizedName
     );
-    if (isDuplicate) {
-      globalErrors.push(`Team Name '${rawTeamName}' is already registered. Please choose a unique team name.`);
+    if (existingMatch) {
+      const msg = `Team Name '${rawTeamName}' is already registered (by Team ID: ${existingMatch.registrationId || 'Existing Team'}). Please choose a unique team name.`;
+      globalErrors.push(msg);
+      teamInfoErrors.teamName = msg;
     }
   }
 
   if (!teamInfo.theme) {
     globalErrors.push("Please select an SIH Theme / Domain.");
+    teamInfoErrors.theme = "Please select an SIH Theme / Domain.";
   }
 
   if (!teamInfo.projectTitle || !teamInfo.projectTitle.trim()) {
     globalErrors.push("Project Title is required.");
+    teamInfoErrors.projectTitle = "Project Title is required.";
   }
 
   if (!teamInfo.teamLeaderName) {
     globalErrors.push("Team Leader Name must be selected.");
+    teamInfoErrors.teamLeaderName = "Team Leader Name must be selected.";
   } else {
     // Ensure Team Leader is one of the 6 students
     const studentNames = (formData.students || []).map(s => s.fullName ? s.fullName.trim().toLowerCase() : '');
     const leaderMatch = studentNames.includes(teamInfo.teamLeaderName.trim().toLowerCase());
     if (!leaderMatch) {
-      globalErrors.push("The Team Leader must be one of the six registered student members.");
+      const msg = "The Team Leader must be one of the six registered student members.";
+      globalErrors.push(msg);
+      teamInfoErrors.teamLeaderName = msg;
     }
   }
 
@@ -207,6 +217,7 @@ export const validateFullRegistration = (formData, existingTeams = []) => {
   return {
     isValid: globalErrors.length === 0 && studentErrors.every(e => !e || Object.keys(e).length === 0),
     globalErrors,
-    studentErrors
+    studentErrors,
+    teamInfoErrors
   };
 };

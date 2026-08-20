@@ -46,9 +46,22 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
   });
   const [consentAccepted, setConsentAccepted] = useState(false);
 
-  const [validationErrors, setValidationErrors] = useState({ globalErrors: [], studentErrors: [] });
+  const [validationErrors, setValidationErrors] = useState({ globalErrors: [], studentErrors: [], teamInfoErrors: {} });
+  const [existingTeams, setExistingTeams] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successData, setSuccessData] = useState(null);
+
+  React.useEffect(() => {
+    const loadTeams = async () => {
+      try {
+        const teams = await getStoredTeams();
+        setExistingTeams(teams || []);
+      } catch (err) {
+        console.error("Error loading initial existing teams:", err);
+      }
+    };
+    loadTeams();
+  }, []);
 
   const steps = [
     { title: "Student 1 (Team Leader)", short: "1. Leader" },
@@ -86,9 +99,10 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    let existingTeams = [];
+    let currentExistingTeams = existingTeams;
     try {
-      existingTeams = await getStoredTeams();
+      currentExistingTeams = await getStoredTeams();
+      setExistingTeams(currentExistingTeams || []);
     } catch (err) {
       console.error("Error fetching existing teams:", err);
     }
@@ -100,7 +114,7 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
       consentAccepted
     };
 
-    const validation = validateFullRegistration(formData, existingTeams);
+    const validation = validateFullRegistration(formData, currentExistingTeams);
     setValidationErrors(validation);
 
     if (!validation.isValid) {
@@ -311,7 +325,8 @@ export const RegistrationModal = ({ onClose, onRegistrationSuccess }) => {
               teamInformation={teamInformation}
               onChange={setTeamInformation}
               students={students}
-              errors={{}}
+              existingTeams={existingTeams}
+              errors={validationErrors.teamInfoErrors || {}}
             />
           )}
 

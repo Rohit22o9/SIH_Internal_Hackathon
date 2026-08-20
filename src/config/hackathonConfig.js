@@ -7,7 +7,7 @@ export const hackathonConfig = {
   USE_DUMMY_DATA: false,
 
   // Global Toggle for Registration Status
-  IS_REGISTRATION_OPEN: true,
+  IS_REGISTRATION_OPEN: false,
 
   // Google Integration Endpoints
   GOOGLE_APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxfaU01lad4YbmIRmwwMIwHC0APPdbLO21uq25OwwH8jItcKnv4DOi5I6dEtf_FpQV5Pg/exec",
